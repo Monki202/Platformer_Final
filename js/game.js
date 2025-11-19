@@ -8,6 +8,7 @@ function main()
 {
     ctx.clearRect(0,0,c.width,c.height); 
     state()
+
 }
 
 //setup
@@ -16,6 +17,7 @@ var button = new GameObject();
 var avatar = new GameObject();
 var ground = new GameObject();
 var platform = new GameObject();
+var platform2 = new GameObject();
 var wall = new GameObject();
 var level = new GameObject();
 
@@ -28,6 +30,12 @@ function init()
 
     level.x = 0; 
     level.y = 0;
+    
+    wall.h = 1000;
+    wall.w = 34;
+    wall.color = `purple`
+    wall.world = level
+    wall.x = 100;
 
     ground.color = `brown`;
     ground.w = c.width;
@@ -35,17 +43,17 @@ function init()
     ground.y = c.height - ground.h/2;
     ground.world = level
 
-    platform.w = 200;
+    platform.w = -200;
     platform.h = 34;
-    platform.color = `tan`
+    platform.color = `black`
     platform.world = level
+    platform.x = 40;
 
-    wall.h = 200;
-    wall.w = 34;
-    wall.color = `purple`
-    wall.x = 600;
-    wall.world = level
-
+    platform2.w = 100;
+    platform2.h = 34;
+    platform2.color = `tan`
+    platform2.world = level
+    platform2.x = 40;
 }
 
 init();
@@ -107,12 +115,19 @@ function game()
         offset.y--;
         avatar.canJump = true;
     }
-    while(wall.isOverPoint(avatar.right()) && avatar.vx >= 0)
+    while(wall.isOverPoint(avatar.left()) && avatar.vx >= 0)
     {
         avatar.vx = 0;
         avatar.x--;
         offset.x--;
     }
+    while(wall.isOverPoint(avatar.right()) && avatar.vx <= 0)
+    {
+        avatar.vx = 0;
+        avatar.x++;
+        offset.x++;
+    }
+    
 
     /*-------Level movement threshold----*/
     //if(avatar.x > 500 || avatar.x < 300)
@@ -124,19 +139,20 @@ function game()
         //avatar.y -= offset.y;
     //}
 
-    /*----- Camera Code -----------
+    
         var dx = c.width/2 - avatar.x
-        var dy = c.height/2 - avatar.y
+        var dy = c.height/1.75 - avatar.y
         
-        level.x += dx*.05; 
-        avatar.x += dx*.05; 
+        //level.x += dx*.05; 
+        //avatar.x += dx*.05; 
         level.y += dy*.15; 
         avatar.y += dy*.15; 
-    //----------------------------*/
+    
     
 
     ground.render();
     platform.render();
+    platform2.render();
     wall.render();
     avatar.render();
     
