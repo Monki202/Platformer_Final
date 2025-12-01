@@ -19,6 +19,7 @@ var ground = new GameObject();
 var platform = new GameObject();
 var platform2 = new GameObject();
 var wall = new GameObject();
+var wall2 = new GameObject();
 var level = new GameObject();
 
 
@@ -31,16 +32,22 @@ function init()
     level.x = 0; 
     level.y = 0;
     
-    wall.h = 1000;
+    wall.h = 10000;
     wall.w = 34;
     wall.color = `purple`
     wall.world = level
-    wall.x = 100;
+    wall.x = 1000;
+
+    wall2.h = 10000;
+    wall2.w = 34;
+    wall2.color = `purple`
+    wall2.world = level
+    wall2.x = -2;
 
     ground.color = `brown`;
     ground.w = c.width;
-    ground.h = c.height*.25;
-    ground.y = c.height - ground.h/2;
+    ground.h = c.height*.5;
+    ground.y = c.height
     ground.world = level
 
     platform.w = -200;
@@ -51,7 +58,7 @@ function init()
 
     platform2.w = 100;
     platform2.h = 34;
-    platform2.color = `tan`
+    platform2.color = `black`
     platform2.world = level
     platform2.x = 40;
 }
@@ -115,17 +122,29 @@ function game()
         offset.y--;
         avatar.canJump = true;
     }
-    while(wall.isOverPoint(avatar.left()) && avatar.vx >= 0)
+    while(wall.isOverPoint(avatar.left()) && avatar.vx <= 0)
+    {
+        avatar.vx = 0;
+        avatar.x++;
+        offset.x++;
+    }
+    while(wall.isOverPoint(avatar.right()) && avatar.vx >= 0)
     {
         avatar.vx = 0;
         avatar.x--;
         offset.x--;
     }
-    while(wall.isOverPoint(avatar.right()) && avatar.vx <= 0)
+    while(wall2.isOverPoint(avatar.left()) && avatar.vx <= 0)
     {
         avatar.vx = 0;
         avatar.x++;
         offset.x++;
+    }
+    while(wall2.isOverPoint(avatar.right()) && avatar.vx >= 0)
+    {
+        avatar.vx = 0;
+        avatar.x--;
+        offset.x--;
     }
     
 
@@ -154,8 +173,8 @@ function game()
     platform.render();
     platform2.render();
     wall.render();
+    wall2.render();
     avatar.render();
-    
 }
 
 
