@@ -3,6 +3,9 @@ var c = document.querySelector(`canvas`)
 var ctx = c.getContext(`2d`)
 var fps = 1000/60
 var timer = setInterval(main, fps)
+var playerImg = new Image();
+var player = document.getElementById("#Player")
+
 
 function main()
 {
@@ -28,6 +31,9 @@ function init()
     state = menu
 
     avatar.color = `green`;
+    avatar.w = 120;
+    avatar.h = 130;
+    avatar.setImage("#playerLeft")
 
     level.x = 0; 
     level.y = 0;
@@ -84,22 +90,65 @@ function lose()
 
 }
 
+//IMPORTANT
+
+//Perfomance.now = DeltaTime
+function animateScale(avatar, startX, startY, endX, endY, duration) {
+    var startTime = performance.now();
+
+    function update(now) {
+        var t = (now - startTime) / duration;
+        if (t > 1) t = 1;
+
+        avatar.img.scale.x = startX + (endX - startX) * t;
+        avatar.img.scale.y = startY + (endY - startY) * t;
+
+        if (t < 1) requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+}
+
 function game()
 {
     if(sp == true && avatar.canJump == true)
     {
+        animateScale(avatar, 0.8, 1.1, 1, 1, 300);
         avatar.canJump = false;
+        avatar.hasJumped = true;
         avatar.vy = -25;
     }
 
+    if(avatar.canJump == false)
+{
     if(a == true)
     {
-        avatar.vx += -1;
+        avatar.vx += -4;
+        avatar.setImage("#playerLeft")
+        
     }
     if(d == true)
     {
-        avatar.vx += 1;
+        avatar.vx += 4;
+        avatar.setImage("#playerRight")
     }
+
+}else
+{
+    if(a == true)
+    {
+        avatar.vx += -2;
+        avatar.setImage("#playerLeft")
+        
+    }
+    if(d == true)
+    {
+        avatar.vx += 2;
+        avatar.setImage("#playerRight")
+    }
+
+}
+
 
     avatar.vx *= .85;
     avatar.vy += 1;
@@ -114,6 +163,7 @@ function game()
         avatar.y--;
         offset.y--;
         avatar.canJump = true;
+        avatar.hasJumped = false;
     }
     while(platform.isOverPoint(avatar.bottom()) && avatar.vy >= 0)
     {
@@ -121,6 +171,7 @@ function game()
         avatar.y--;
         offset.y--;
         avatar.canJump = true;
+        avatar.hasJumped = false;
     }
     while(wall.isOverPoint(avatar.left()) && avatar.vx <= 0)
     {
@@ -174,7 +225,8 @@ function game()
     platform2.render();
     wall.render();
     wall2.render();
-    avatar.render();
+    avatar.graphic();
+    console.log(avatar.img.scale)
 }
 
 

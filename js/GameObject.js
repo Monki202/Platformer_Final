@@ -18,6 +18,7 @@ class GameObject
      this.color = `hotpink`
     //jump boolean
     this.canJump = false;
+    this.hasJumped = false;
     this.world = {x:0, y:0}
 
      this.img = {
@@ -54,7 +55,11 @@ class GameObject
         ctx.save();
         ctx.fillStyle = this.color
         ctx.translate(_x+this.world.x, _y+this.world.y)
-        ctx.scale(this.img.scale.x, this.img.scale.y)
+        ctx.scale
+        (
+            Math.max(0.001, this.img.scale.x),
+            Math.max(0.001, this.img.scale.y)
+        );
         ctx.rotate(this.angle*Math.PI/180)
         ctx.drawImage(
             this.img.src,
@@ -71,15 +76,20 @@ class GameObject
     }
 
     //Draws a rectangle 
-    render()
-    {
-        ctx.save();
-            ctx.fillStyle = this.color
-            ctx.translate(this.x+this.world.x, this.y+this.world.y)
-            ctx.rotate(this.angle*Math.PI/180)
-            ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h)
-        ctx.restore();
-    }
+    render() 
+{
+    ctx.save();
+
+    // Replace only the image source, not the entire 'img' object
+    this.img.src = playerImg.src;
+
+    ctx.fillStyle = this.color;
+    ctx.translate(this.x + this.world.x, this.y + this.world.y);
+    ctx.rotate(this.angle * Math.PI / 180);
+    ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
+
+    ctx.restore();
+}
 
     //Moves an object by adding it's velocity to it's position on each axis
     move()
