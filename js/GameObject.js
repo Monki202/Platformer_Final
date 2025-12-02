@@ -6,6 +6,8 @@ class GameObject
     //object position
      this.x=c.width/2;
      this.y=c.height/2;
+     //object rotation
+     this.rotation = 0;
      //object angle
      this.angle = 0;
      //object dimensions
@@ -55,13 +57,16 @@ class GameObject
         ctx.save();
         ctx.fillStyle = this.color
         ctx.translate(_x+this.world.x, _y+this.world.y)
+        
+        ctx.rotate(this.rotation * Math.PI / 180)
+
         ctx.scale
         (
             Math.max(0.001, this.img.scale.x),
             Math.max(0.001, this.img.scale.y)
         );
-        ctx.rotate(this.angle*Math.PI/180)
-        ctx.drawImage(
+
+        ctx.drawImage( 
             this.img.src,
             this.img.sx,
             this.img.sy, 

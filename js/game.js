@@ -109,45 +109,49 @@ function animateScale(avatar, startX, startY, endX, endY, duration) {
     requestAnimationFrame(update);
 }
 
+
 function game()
 {
     if(sp == true && avatar.canJump == true)
     {
-        animateScale(avatar, 0.8, 1.1, 1, 1, 300);
+        animateScale(avatar, 0.8, 1.3, 1, 1, 300);
         avatar.canJump = false;
         avatar.hasJumped = true;
         avatar.vy = -25;
+
+        
     }
 
     if(avatar.canJump == false)
-{
-    if(a == true)
     {
-        avatar.vx += -4;
-        avatar.setImage("#playerLeft")
-        
-    }
-    if(d == true)
-    {
-        avatar.vx += 4;
-        avatar.setImage("#playerRight")
-    }
 
-}else
-{
-    if(a == true)
-    {
-        avatar.vx += -2;
-        avatar.setImage("#playerLeft")
-        
-    }
-    if(d == true)
-    {
-        avatar.vx += 2;
-        avatar.setImage("#playerRight")
-    }
+        if(a == true)
+        {
+            avatar.vx += -2.5;
+            avatar.setImage("#playerLeft")
+            
+        }
+        if(d == true)
+        {
+            avatar.vx += 2.5;
+            avatar.setImage("#playerRight")
+        }
 
-}
+    }else
+    {
+        if(a == true)
+        {
+            avatar.vx += -2;
+            avatar.setImage("#playerLeft")
+            
+        }
+        if(d == true)
+        {
+            avatar.vx += 2;
+            avatar.setImage("#playerRight")
+        }
+
+    }
 
 
     avatar.vx *= .85;
@@ -164,6 +168,7 @@ function game()
         offset.y--;
         avatar.canJump = true;
         avatar.hasJumped = false;
+        avatar.rotation %= 360;
     }
     while(platform.isOverPoint(avatar.bottom()) && avatar.vy >= 0)
     {
@@ -172,6 +177,7 @@ function game()
         offset.y--;
         avatar.canJump = true;
         avatar.hasJumped = false;
+        avatar.rotation %= 360;
     }
     while(wall.isOverPoint(avatar.left()) && avatar.vx <= 0)
     {
