@@ -96,6 +96,7 @@ class GameObject
     ctx.restore();
 }
 
+
     //Moves an object by adding it's velocity to it's position on each axis
     move()
     {
