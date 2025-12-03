@@ -20,8 +20,10 @@ var ground = new GameObject();
 var jumpOrb = new GameObject();
 var platform = new GameObject();
 var platform2 = new GameObject();
+var platform3 = new GameObject();
 var wall = new GameObject();
 var wall2 = new GameObject();
+var wall3 = new GameObject();
 var level = new GameObject();
 
 //recommended x between 50 and 950
@@ -55,6 +57,13 @@ function init() {
     wall2.world = level
     wall2.x = -2;
 
+    wall3.h = 100;
+    wall3.w = 34;
+    wall3.color = `purple`
+    wall3.world = level
+    wall3.x = 200;
+    wall3.y = -100
+
     ground.color = `brown`;
     ground.w = c.width;
     ground.h = c.height * .5;
@@ -72,7 +81,14 @@ function init() {
     platform2.color = `black`
     platform2.world = level
     platform2.x = 950;
-    platform2.y = 50
+    platform2.y = 42
+
+    platform3.w = 200;
+    platform3.h = 34;
+    platform3.color = `black`
+    platform3.world = level
+    platform3.x = 90;
+    platform3.y = -30
 }
 
 init();
@@ -80,7 +96,7 @@ init();
 //Jump coold
 
 var jumpCooldown = false;
-var orbCooldown = false;
+var orbCooldown = true;
 
 document.addEventListener(`keydown`, jump);
 function jump(e) {
@@ -147,6 +163,8 @@ function animateScale(avatar, startX, startY, endX, endY, duration) {
 }
 
 
+
+
 function game() {
 
 
@@ -188,31 +206,20 @@ function game() {
         avatar.y--;
         offset.y--;
         avatar.canJump = true;
-        orbCooldown = false;
+        orbCooldown = true;
     }
+    
     if (jumpOrb.overlaps(avatar) && orbCooldown == true) 
     {
+        jumpOrb.color = 'red'
+        animateScale(avatar, 0.8, 1.3, 1, 1, 300);
+        avatar.vy = -21  
+        orbCooldown = false;
+    }
 
-        if (!jumpOrb.overlaps)
-        {
-            orbCooldown = false
-        }
-
-        document.addEventListener(`keydown`, jump);
-        function jump(e) {
-            console.log(e.keyCode)
-            if (e.keyCode === 32) 
-                {
-
-                    console.log('jump')
-                    animateScale(avatar, 0.8, 1.3, 1, 1, 300);
-                    jumpCooldown = true
-                    avatar.canJump = false;
-                    avatar.hasJumped = true;
-                    avatar.vy = -21;
-                    orbCooldown = true;
-                }
-            }
+    if (orbCooldown == true)
+    {
+        jumpOrb.color = 'yellow'
     }
 
     while (platform.isOverPoint(avatar.bottom())) {
@@ -220,14 +227,21 @@ function game() {
         avatar.y--;
         offset.y--;
         avatar.canJump = true;
-        orbCooldown = false;
+        orbCooldown = true;
     }
     while (platform2.isOverPoint(avatar.bottom())) {
         avatar.vy = 0;
         avatar.y--;
         offset.y--;
         avatar.canJump = true;
-        orbCooldown = false;
+        orbCooldown = true;
+    }
+    while (platform3.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
     }
     while (wall.isOverPoint(avatar.left()) && avatar.vx <= 0) {
         avatar.vx = 0;
@@ -249,7 +263,18 @@ function game() {
         avatar.x--;
         offset.x--;
     }
+    while (wall3.isOverPoint(avatar.left()) && avatar.vx <= 0) {
+        avatar.vx = 0;
+        avatar.x++;
+        offset.x++;
+    }
+    while (wall3.isOverPoint(avatar.right()) && avatar.vx >= 0) {
+        avatar.vx = 0;
+        avatar.x--;
+        offset.x--;
+    }
 
+    
 
     /*-------Level movement threshold----*/
     /* if(avatar.x > 500 || avatar.x < 300)
@@ -276,8 +301,10 @@ function game() {
     jumpOrb.render();
     platform.render();
     platform2.render();
+    platform3.render();
     wall.render();
     wall2.render();
+    wall3.render();
     avatar.graphic();
 }
 
