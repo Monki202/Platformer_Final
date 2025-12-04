@@ -23,7 +23,6 @@ var platform2 = new GameObject();
 var platform3 = new GameObject();
 var wall = new GameObject();
 var wall2 = new GameObject();
-var wall3 = new GameObject();
 var level = new GameObject();
 
 //recommended x between 50 and 950
@@ -57,13 +56,6 @@ function init() {
     wall2.world = level
     wall2.x = -2;
 
-    wall3.h = 100;
-    wall3.w = 34;
-    wall3.color = `purple`
-    wall3.world = level
-    wall3.x = 200;
-    wall3.y = -100
-
     ground.color = `brown`;
     ground.w = c.width;
     ground.h = c.height * .5;
@@ -88,7 +80,7 @@ function init() {
     platform3.color = `black`
     platform3.world = level
     platform3.x = 90;
-    platform3.y = -30
+    platform3.y = -130
 }
 
 init();
@@ -263,16 +255,6 @@ function game() {
         avatar.x--;
         offset.x--;
     }
-    while (wall3.isOverPoint(avatar.left()) && avatar.vx <= 0) {
-        avatar.vx = 0;
-        avatar.x++;
-        offset.x++;
-    }
-    while (wall3.isOverPoint(avatar.right()) && avatar.vx >= 0) {
-        avatar.vx = 0;
-        avatar.x--;
-        offset.x--;
-    }
 
     
 
@@ -304,7 +286,6 @@ function game() {
     platform3.render();
     wall.render();
     wall2.render();
-    wall3.render();
     avatar.graphic();
 }
 
