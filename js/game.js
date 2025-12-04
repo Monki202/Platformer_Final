@@ -176,7 +176,7 @@ function lose() {
 //IMPORTANT
 
 //Perfomance.now = DeltaTime
-function animateScale(avatar, startX, startY, endX, endY, duration) {
+/*function animateScale(avatar, startX, startY, endX, endY, duration) {
     var startTime = performance.now();
 
     function update(now) {
@@ -191,7 +191,9 @@ function animateScale(avatar, startX, startY, endX, endY, duration) {
     }
 
     requestAnimationFrame(update);
-}
+}*/
+
+//old animation system *DEPRICATED*
 
 
 
@@ -202,25 +204,31 @@ function game() {
     //using let instead of var so its not accesable outside of the game loop, also so it doesnt get jumbled with similar names
     //gets the absolute value of velocity to stretch the player on the y so it stretchs when falling and going up.
     //so there isnt two of these
-    let speedY = Math.abs(avatar.vy);
-    let speedX = Math.abs(avatar.vx);
+    let speedYpos = -1 * (avatar.vy);
+    let speedXpos = (avatar.vy);
+    //let speedX = Math.abs(avatar.vx);
 
     //math.min gets the smaller number from a list
-    let stretchAmountXY = Math.min(speedY / 25, 1);
-    let rotationAmount = Math.min(speedX * 25, 1);
+    let stretchAmountUp = Math.min(speedYpos / 25, 1);
+    let stretchAmountDown = Math.min(speedXpos / 25, 1);
+    //let rotationAmount = Math.min(speedX * 25, 1);
 
     //setting the stretch amount for the X and Y to be used during falling
-    let targetScaleY = 1 + stretchAmountXY * 0.7;
-    let targetScaleX = 1 - stretchAmountXY * 0.4;
-    let rotationAmountX = 1 - rotationAmount * 3;
-    let rotationAmountY = 1 - rotationAmount * -3;
+    let targetScaleYUp = 1 + stretchAmountUp * 0.7;
+    let targetScaleXUp = 1 - stretchAmountUp * 0.4;
+
+    let targetScaleYDown = 1 + stretchAmountDown * 1.4;
+    let targetScaleXDown = 1 - stretchAmountDown * 0.4;
+    //let rotationAmountX = 1 - rotationAmount * -30;
 
     //Using the lerp function from bove to scale the player smoothly (avatarimgscale being a, targetscale being b, and 0.15 being t for the smoothing)
-    avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleX, 0.3)
-    avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleY, 0.3)  
+    avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleXUp, 0.3)
+    avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleYUp, 0.3)
+    
+    avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleXDown, 0.3)
+    avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleYDown, 0.3) 
 
-    avatar.rotation = lerp(avatar.rotation, rotationAmountX, 0.3)
-    avatar.rotation = lerp(avatar.rotation, rotationAmountY, 0.3)  
+    //avatar.rotation = lerp(avatar.rotation, rotationAmountX, 0.3)
 
 
 
@@ -269,7 +277,6 @@ function game() {
     if (jumpOrb.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb.color = 'red'
-        //animateScale(avatar, 0.8, 1.3, 1, 1, 300);
         avatar.vy = -22  
         orbCooldown = false;
     }
@@ -277,7 +284,6 @@ function game() {
     if (jumpOrb2.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb2.color = 'red'
-        //animateScale(avatar, 0.8, 1.3, 1, 1, 300);
         avatar.vy = -38  
         //orbCooldown = false
     }
@@ -285,7 +291,6 @@ function game() {
     if (jumpOrb3.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb3.color = 'red'
-        //animateScale(avatar, 0.8, 1.3, 1, 1, 300);
         avatar.vy = -45  
         orbCooldown = false;
     }
