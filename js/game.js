@@ -204,29 +204,29 @@ function game() {
     //using let instead of var so its not accesable outside of the game loop, also so it doesnt get jumbled with similar names
     //gets the absolute value of velocity to stretch the player on the y so it stretchs when falling and going up.
     //so there isnt two of these
-    let speedYpos = -1 * (avatar.vy);
-    let speedXpos = (avatar.vy);
+    let speedYpos = 1 * (avatar.vy);
+    //let speedXpos = (avatar.vy);
     //let speedX = Math.abs(avatar.vx);
 
     //math.min gets the smaller number from a list
     let stretchAmountUp = Math.min(speedYpos / 25, 1);
-    let stretchAmountDown = Math.min(speedXpos / 25, 1);
+    //let stretchAmountDown = Math.min(speedXpos / 25, 1);
     //let rotationAmount = Math.min(speedX * 25, 1);
 
     //setting the stretch amount for the X and Y to be used during falling
-    let targetScaleYUp = 1 + stretchAmountUp * 0.7;
-    let targetScaleXUp = 1 - stretchAmountUp * 0.4;
+    let targetScaleYUp = 1 + stretchAmountUp * 1;
+    let targetScaleXUp = 1 - stretchAmountUp * 2.3;
 
-    let targetScaleYDown = 1 + stretchAmountDown * 1.4;
-    let targetScaleXDown = 1 - stretchAmountDown * 0.4;
+    //let targetScaleYDown = 1 + stretchAmountDown * 0.1;
+    //let targetScaleXDown = 1 - stretchAmountDown * 1;
     //let rotationAmountX = 1 - rotationAmount * -30;
 
     //Using the lerp function from bove to scale the player smoothly (avatarimgscale being a, targetscale being b, and 0.15 being t for the smoothing)
     avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleXUp, 0.3)
     avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleYUp, 0.3)
     
-    avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleXDown, 0.3)
-    avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleYDown, 0.3) 
+    //avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleXDown, 0.6)
+    //avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleYDown, 0.6) 
 
     //avatar.rotation = lerp(avatar.rotation, rotationAmountX, 0.3)
 
