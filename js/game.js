@@ -36,6 +36,7 @@ var platform13 = new GameObject();
 var platform14 = new GameObject();
 var wall = new GameObject();
 var wall2 = new GameObject();
+var wall3 = new GameObject();
 var level = new GameObject();
 
 //recommended x between 50 and 950
@@ -59,15 +60,15 @@ function init() {
 
     jumpOrb2.h = 100
     jumpOrb2.w = 100
-    jumpOrb2.x = 400
-    jumpOrb2.y = -290
+    jumpOrb2.x = 550
+    jumpOrb2.y = -390
     jumpOrb2.color = 'yellow'
     jumpOrb2.world = level
     
     jumpOrb3.h = 100
     jumpOrb3.w = 100
-    jumpOrb3.x = 700
-    jumpOrb3.y = -350
+    jumpOrb3.x = 600
+    jumpOrb3.y = -950
     jumpOrb3.color = 'yellow'
     jumpOrb3.world = level
 
@@ -82,6 +83,13 @@ function init() {
     wall2.color = `purple`
     wall2.world = level
     wall2.x = -2;
+
+    wall3.h = 600;
+    wall3.w = 504;
+    wall3.color = `purple`
+    wall3.world = level
+    wall3.x = 950;
+    wall3.y = -1200
 
     ground.color = `brown`;
     ground.w = c.width;
@@ -109,12 +117,26 @@ function init() {
     platform3.x = 90;
     platform3.y = -130
 
-    platform4.w = 200;
+    platform4.w = 250;
     platform4.h = 34;
     platform4.color = `black`
     platform4.world = level
-    platform4.x = 90;
-    platform4.y = -130
+    platform4.x = 950;
+    platform4.y = -730
+
+    platform5.w = 300;
+    platform5.h = 44;
+    platform5.color = `black`
+    platform5.world = level
+    platform5.x = 850;
+    platform5.y = -1500
+
+    platform6.w = 800;
+    platform6.h = 44;
+    platform6.color = `black`
+    platform6.world = level
+    platform6.x = 50;
+    platform6.y = -1500
     
 }
 
@@ -131,7 +153,7 @@ function jump(e) {
     if (e.keyCode === 32) {
         if (avatar.canJump == true && jumpCooldown == false) {
             console.log('jump')
-            //animateScale(avatar, 0.8, 1.3, 1, 1, 300);
+            //animateScale(avatar, 1, 1, 1, 1, 1300);
             jumpCooldown = true
             avatar.canJump = false;
             avatar.hasJumped = true;
@@ -176,7 +198,7 @@ function lose() {
 //IMPORTANT
 
 //Perfomance.now = DeltaTime
-/*function animateScale(avatar, startX, startY, endX, endY, duration) {
+function animateScale(avatar, startX, startY, endX, endY, duration) {
     var startTime = performance.now();
 
     function update(now) {
@@ -191,9 +213,9 @@ function lose() {
     }
 
     requestAnimationFrame(update);
-}*/
+}
 
-//old animation system *DEPRICATED*
+//old animation system 
 
 
 
@@ -204,7 +226,7 @@ function game() {
     //using let instead of var so its not accesable outside of the game loop, also so it doesnt get jumbled with similar names
     //gets the absolute value of velocity to stretch the player on the y so it stretchs when falling and going up.
     //so there isnt two of these
-    let speedYpos = 1 * (avatar.vy);
+    let speedYpos = (avatar.vy);
     //let speedXpos = (avatar.vy);
     //let speedX = Math.abs(avatar.vx);
 
@@ -214,24 +236,43 @@ function game() {
     //let rotationAmount = Math.min(speedX * 25, 1);
 
     //setting the stretch amount for the X and Y to be used during falling
-    let targetScaleYUp = 1 + stretchAmountUp * 1;
-    let targetScaleXUp = 1 - stretchAmountUp * 2.3;
+    let targetScaleYUp = 1 - stretchAmountUp * 0.4;
+    let targetScaleXUp = 1 + stretchAmountUp * 1.3;
 
-    //let targetScaleYDown = 1 + stretchAmountDown * 0.1;
+    //let targetScaleYDown = 1 + stretchAmountDown * 0.9;
     //let targetScaleXDown = 1 - stretchAmountDown * 1;
-    //let rotationAmountX = 1 - rotationAmount * -30;
+    //let rotationAmountX = 1 - rotationAmount * 90;
 
     //Using the lerp function from bove to scale the player smoothly (avatarimgscale being a, targetscale being b, and 0.15 being t for the smoothing)
-    avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleXUp, 0.3)
-    avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleYUp, 0.3)
+    avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleYUp, 0.6);
+    avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleXUp, 0.6);
     
     //avatar.img.scale.x = lerp(avatar.img.scale.x, targetScaleXDown, 0.6)
     //avatar.img.scale.y = lerp(avatar.img.scale.y, targetScaleYDown, 0.6) 
 
     //avatar.rotation = lerp(avatar.rotation, rotationAmountX, 0.3)
 
+    
+    while(avatar.img.scale.y < 0.9)
+    {
+        avatar.img.scale.y = 0.9
+    }
 
+    while(avatar.img.scale.y > 1.6)
+    {
+        avatar.img.scale.y = 1.6
+    }
 
+    while(avatar.img.scale.x > 1.1)
+    {
+        avatar.img.scale.x = 1.1
+    }
+
+    //while(avatar.img.scale.x < 0.7)
+    //{
+    //    avatar.img.scale.x = 0.7
+    //}
+    
 
     if (avatar.canJump == false) {
 
@@ -276,28 +317,23 @@ function game() {
     
     if (jumpOrb.overlaps(avatar) && orbCooldown == true) 
     {
-        jumpOrb.color = 'red'
-        avatar.vy = -22  
+        jumpOrb.color = 'red';
+        avatar.vy = -22;  
         orbCooldown = false;
     }
 
     if (jumpOrb2.overlaps(avatar) && orbCooldown == true) 
     {
-        jumpOrb2.color = 'red'
-        avatar.vy = -38  
-        //orbCooldown = false
+        jumpOrb2.color = 'red';
+        avatar.vy = -38;
+        orbCooldown = false;
     }
 
     if (jumpOrb3.overlaps(avatar) && orbCooldown == true) 
     {
-        jumpOrb3.color = 'red'
-        avatar.vy = -45  
-        orbCooldown = false;
-    }
-
-    if(jumpOrb3.color == 'red')
-    {
-        
+        jumpOrb3.color = 'red';
+        avatar.vy = -43;  
+        orbCooldown = false;s
     }
 
     if (orbCooldown == true)
@@ -328,6 +364,53 @@ function game() {
         avatar.canJump = true;
         orbCooldown = true;
     }
+    while (platform4.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+    while (platform5.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+
+    while (platform5.isOverPoint(avatar.top())) {
+        avatar.vy = 0;
+        avatar.y++;
+        offset.y++;
+    }
+
+    while (platform5.isOverPoint(avatar.right())) {
+        avatar.vx = 0;
+        avatar.x--;
+        offset.x--;
+    }
+
+    while (platform6.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+
+    while (platform6.isOverPoint(avatar.top())) {
+        avatar.vy = 0;
+        avatar.y++;
+        offset.y++;
+    }
+
+    while (platform6.isOverPoint(avatar.left())) {
+        avatar.vx = 0;
+        avatar.x++;
+        offset.x++;
+    }
+
     while (wall.isOverPoint(avatar.left()) && avatar.vx <= 0) {
         avatar.vx = 0;
         avatar.x++;
@@ -347,6 +430,21 @@ function game() {
         avatar.vx = 0;
         avatar.x--;
         offset.x--;
+    }
+    while (wall3.isOverPoint(avatar.left()) && avatar.vx <= 0) {
+        avatar.vx = 0;
+        avatar.x++;
+        offset.x++;
+    }
+    while (wall3.isOverPoint(avatar.right()) && avatar.vx >= 0) {
+        avatar.vx = 0;
+        avatar.x--;
+        offset.x--;
+    }
+    while (wall3.isOverPoint(avatar.top())) {
+        avatar.vy = 0;
+        avatar.y++;
+        offset.y++;
     }
 
     
@@ -380,8 +478,11 @@ function game() {
     platform2.render();
     platform3.render();
     platform4.render();
+    platform5.render();
+    platform6.render();
     wall.render();
     wall2.render();
+    wall3.render();
     avatar.graphic();
 }
 
