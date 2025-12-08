@@ -20,6 +20,7 @@ var ground = new GameObject();
 var jumpOrb = new GameObject();
 var jumpOrb2 = new GameObject();
 var jumpOrb3 = new GameObject();
+var jumpOrb4 = new GameObject();
 var platform = new GameObject();
 var platform2 = new GameObject();
 var platform3 = new GameObject();
@@ -55,22 +56,29 @@ function init() {
     jumpOrb.w = 100
     jumpOrb.x = 600
     jumpOrb.y = 130
-    jumpOrb.color = 'yellow'
+    jumpOrb.color = 'purple'
     jumpOrb.world = level
 
     jumpOrb2.h = 100
     jumpOrb2.w = 100
     jumpOrb2.x = 550
     jumpOrb2.y = -390
-    jumpOrb2.color = 'yellow'
+    jumpOrb2.color = 'blue'
     jumpOrb2.world = level
     
     jumpOrb3.h = 100
     jumpOrb3.w = 100
     jumpOrb3.x = 600
     jumpOrb3.y = -950
-    jumpOrb3.color = 'yellow'
+    jumpOrb3.color = 'blue'
     jumpOrb3.world = level
+
+    jumpOrb4.h = 100
+    jumpOrb4.w = 100
+    jumpOrb4.x = 200
+    jumpOrb4.y = -1680
+    jumpOrb4.color = 'purple'
+    jumpOrb4.world = level
 
     wall.h = 10000;
     wall.w = 34;
@@ -137,6 +145,13 @@ function init() {
     platform6.world = level
     platform6.x = 50;
     platform6.y = -1500
+
+    platform7.w = 200;
+    platform7.h = 24;
+    platform7.color = `black`
+    platform7.world = level
+    platform7.x = 50;
+    platform7.y = -1900
     
 }
 
@@ -146,13 +161,14 @@ init();
 
 var jumpCooldown = false;
 var orbCooldown = true;
+let orbCount = 0;
 
 document.addEventListener(`keydown`, jump);
 function jump(e) {
-    console.log(e.keyCode)
+    //console.log(e.keyCode)
     if (e.keyCode === 32) {
         if (avatar.canJump == true && jumpCooldown == false) {
-            console.log('jump')
+            //console.log('jump')
             //animateScale(avatar, 1, 1, 1, 1, 1300);
             jumpCooldown = true
             avatar.canJump = false;
@@ -167,10 +183,21 @@ function lerp(a, b, t) {
     return a + (b - a) * t;
 }
 
+function orbCooldownFunc()
+{
+    orbCount++;
+    console.log(orbCount);
+    if(orbCount == 100)
+    {
+        orbCount = 0;
+        orbCooldown = false;
+    }
+}
+
 
 document.addEventListener(`keyup`, resetJump);
 function resetJump(e) {
-    console.log(e.keyCode)
+    //console.log(e.keyCode)
     if (e.keyCode == 32) {
         if (jumpCooldown) {
             jumpCooldown = false;
@@ -319,28 +346,37 @@ function game() {
     {
         jumpOrb.color = 'red';
         avatar.vy = -22;  
-        orbCooldown = false;
+        orbCooldownFunc();
+        orbCount = Math.ceil(orbCount/5) * 5;
     }
 
     if (jumpOrb2.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb2.color = 'red';
         avatar.vy = -38;
-        orbCooldown = false;
+        orbCooldownFunc();
     }
 
     if (jumpOrb3.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb3.color = 'red';
         avatar.vy = -43;  
-        orbCooldown = false;s
+        orbCooldownFunc();
+    }
+
+    if (jumpOrb4.overlaps(avatar) && orbCooldown == true) 
+    {
+        jumpOrb4.color = 'red';
+        avatar.vy = -20; 
+        orbCooldownFunc();
     }
 
     if (orbCooldown == true)
     {
-        jumpOrb.color = 'yellow'
-        jumpOrb2.color = 'yellow'
-        jumpOrb3.color = 'yellow'
+        jumpOrb.color = 'purple'
+        jumpOrb2.color = 'blue'
+        jumpOrb3.color = 'blue'
+        jumpOrb4.color = 'purple'
     }
 
     while (platform.isOverPoint(avatar.bottom())) {
@@ -411,6 +447,15 @@ function game() {
         offset.x++;
     }
 
+    while (platform7.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+
+
     while (wall.isOverPoint(avatar.left()) && avatar.vx <= 0) {
         avatar.vx = 0;
         avatar.x++;
@@ -474,12 +519,14 @@ function game() {
     jumpOrb.render();
     jumpOrb2.render();
     jumpOrb3.render();
+    jumpOrb4.render();
     platform.render();
     platform2.render();
     platform3.render();
     platform4.render();
     platform5.render();
     platform6.render();
+    platform7.render();
     wall.render();
     wall2.render();
     wall3.render();
