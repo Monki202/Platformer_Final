@@ -21,6 +21,14 @@ var jumpOrb = new GameObject();
 var jumpOrb2 = new GameObject();
 var jumpOrb3 = new GameObject();
 var jumpOrb4 = new GameObject();
+var jumpOrb5 = new GameObject();
+var jumpOrb6 = new GameObject();
+var jumpOrb7 = new GameObject();
+var jumpOrb8 = new GameObject();
+var jumpOrb9 = new GameObject();
+var jumpOrb10 = new GameObject();
+var jumpOrb11 = new GameObject();
+var jumpOrb12 = new GameObject();
 var platform = new GameObject();
 var platform2 = new GameObject();
 var platform3 = new GameObject();
@@ -34,7 +42,13 @@ var platform10 = new GameObject();
 var platform11 = new GameObject();
 var platform12 = new GameObject();
 var platform13 = new GameObject();
-var platform14 = new GameObject();
+var platform15 = new GameObject();
+var platform16 = new GameObject();
+var platform17 = new GameObject();
+var platform18 = new GameObject();
+var platform19 = new GameObject();
+var platform20 = new GameObject();
+var platform21 = new GameObject();
 var wall = new GameObject();
 var wall2 = new GameObject();
 var wall3 = new GameObject();
@@ -73,18 +87,55 @@ function init() {
     jumpOrb3.color = 'blue'
     jumpOrb3.world = level
 
-    jumpOrb4.h = 100
-    jumpOrb4.w = 100
-    jumpOrb4.x = 200
+    jumpOrb4.h = 80
+    jumpOrb4.w = 80
+    jumpOrb4.x = 80
     jumpOrb4.y = -1680
     jumpOrb4.color = 'purple'
     jumpOrb4.world = level
+
+    jumpOrb5.h = 70
+    jumpOrb5.w = 70
+    jumpOrb5.x = 500
+    jumpOrb5.y = -2080
+    jumpOrb5.color = 'yellow'
+    jumpOrb5.world = level
+
+    jumpOrb6.h = 80
+    jumpOrb6.w = 80
+    jumpOrb6.x = 900
+    jumpOrb6.y = -2280
+    jumpOrb6.color = 'yellow'
+    jumpOrb6.world = level
+
+    jumpOrb7.h = 50
+    jumpOrb7.w = 50
+    jumpOrb7.x = 190
+    jumpOrb7.y = -2250
+    jumpOrb7.color = 'yellow'
+    jumpOrb7.world = level
+
+    jumpOrb8.h = 50
+    jumpOrb8.w = 50
+    jumpOrb8.x = 700
+    jumpOrb8.y = -2600
+    jumpOrb8.color = 'yellow'
+    jumpOrb8.world = level
+
+    jumpOrb9.h = 50
+    jumpOrb9.w = 50
+    jumpOrb9.x = 300
+    jumpOrb9.y = -2900
+    jumpOrb9.color = 'yellow'
+    jumpOrb9.world = level
 
     wall.h = 10000;
     wall.w = 34;
     wall.color = `purple`
     wall.world = level
     wall.x = 1000;
+    wall.img.h = 1000
+    wall.setImage("#wallleft")
 
     wall2.h = 10000;
     wall2.w = 34;
@@ -146,12 +197,47 @@ function init() {
     platform6.x = 50;
     platform6.y = -1500
 
-    platform7.w = 200;
-    platform7.h = 24;
+    platform7.w = 220;
+    platform7.h = 28;
     platform7.color = `black`
     platform7.world = level
     platform7.x = 50;
     platform7.y = -1900
+
+    platform8.w = 200;
+    platform8.h = 28;
+    platform8.color = `black`
+    platform8.world = level
+    platform8.x = 505;
+    platform8.y = -2250
+
+    platform9.w = 120;
+    platform9.h = 28;
+    platform9.color = `black`
+    platform9.world = level
+    platform9.x = 900;
+    platform9.y = -2000
+
+    platform10.w = 220;
+    platform10.h = 28;
+    platform10.color = `black`
+    platform10.world = level
+    platform10.x = 300;
+    platform10.y = -2500
+
+    platform11.w = 220;
+    platform11.h = 28;
+    platform11.color = `black`
+    platform11.world = level
+    platform11.x = 50;
+    platform11.y = -3200
+
+    platform12.w = 100;
+    platform12.h = 28;
+    platform12.color = `black`
+    platform12.world = level
+    platform12.x = 700;
+    platform12.y = -2900
     
 }
 
@@ -334,6 +420,11 @@ function game() {
     //used to move the level. 
     var offset = { x: avatar.vx, y: avatar.vy }
 
+    while(avatar.vy > 32)
+    {
+        avatar.vy = 32
+    }
+
     while (ground.isOverPoint(avatar.bottom())) {
         avatar.vy = 0;
         avatar.y--;
@@ -346,29 +437,61 @@ function game() {
     {
         jumpOrb.color = 'red';
         avatar.vy = -22;  
-        orbCooldownFunc();
-        orbCount = Math.ceil(orbCount/5) * 5;
+        orbCooldown = false;
     }
 
     if (jumpOrb2.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb2.color = 'red';
         avatar.vy = -38;
-        orbCooldownFunc();
+        orbCooldown = false;
     }
 
     if (jumpOrb3.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb3.color = 'red';
         avatar.vy = -43;  
-        orbCooldownFunc();
+        orbCooldown = false;
     }
 
     if (jumpOrb4.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb4.color = 'red';
-        avatar.vy = -20; 
-        orbCooldownFunc();
+        avatar.vy = -24; 
+        orbCooldown = false;
+    }
+
+    if (jumpOrb5.overlaps(avatar) && orbCooldown == true) 
+    {
+        jumpOrb5.color = 'red';
+        avatar.vy = -23; 
+        orbCooldown = false;
+    }
+
+    if (jumpOrb6.overlaps(avatar) && orbCooldown == true) 
+    {
+        jumpOrb6.color = 'red';
+        avatar.vy = -23; 
+        orbCooldown = false;
+    }
+    if (jumpOrb7.overlaps(avatar) && orbCooldown == true) 
+    {
+        jumpOrb7.color = 'red';
+        avatar.vy = -23; 
+        orbCooldown = false;
+    }
+        if (jumpOrb8.overlaps(avatar) && orbCooldown == true) 
+    {
+        jumpOrb8.color = 'red';
+        avatar.vy = -29; 
+        orbCooldown = false;
+    }
+
+    if (jumpOrb9.overlaps(avatar) && orbCooldown == true) 
+    {
+        jumpOrb9.color = 'red';
+        avatar.vy = -36; 
+        orbCooldown = false;
     }
 
     if (orbCooldown == true)
@@ -377,6 +500,11 @@ function game() {
         jumpOrb2.color = 'blue'
         jumpOrb3.color = 'blue'
         jumpOrb4.color = 'purple'
+        jumpOrb5.color = 'yellow'
+        jumpOrb6.color = 'purple'
+        jumpOrb7.color = 'purple'
+        jumpOrb8.color = 'blue'
+        jumpOrb9.color = 'blue'
     }
 
     while (platform.isOverPoint(avatar.bottom())) {
@@ -455,6 +583,70 @@ function game() {
         orbCooldown = true;
     }
 
+        while (platform8.isOverPoint(avatar.top())) {
+        avatar.vy = 0;
+        avatar.y++;
+        offset.y++;
+    }
+
+        while (platform8.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+
+        while (platform9.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+
+        while (platform10.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+
+        while (platform10.isOverPoint(avatar.top())) {
+        avatar.vy = 0;
+        avatar.y++;
+        offset.y++;
+    }
+
+        while (platform10.isOverPoint(avatar.left())) {
+        avatar.vx = 0;
+        avatar.x++;
+        offset.x++;
+    }
+
+        while (platform10.isOverPoint(avatar.right())) {
+        avatar.vx = 0;
+        avatar.x--;
+        offset.x--;
+    }
+    
+        while (platform11.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+
+        while (platform12.isOverPoint(avatar.bottom())) {
+        avatar.vy = 0;
+        avatar.y--;
+        offset.y--;
+        avatar.canJump = true;
+        orbCooldown = true;
+    }
+
 
     while (wall.isOverPoint(avatar.left()) && avatar.vx <= 0) {
         avatar.vx = 0;
@@ -506,12 +698,12 @@ function game() {
 
 
     var dx = c.width / 2 - avatar.x
-    var dy = c.height / 1.75 - avatar.y
+    var dy = c.height / 1.5 - avatar.y
 
     //level.x += dx*.05; 
     //avatar.x += dx*.05; 
-    level.y += dy * .15;
-    avatar.y += dy * .15;
+    level.y += dy * .2;
+    avatar.y += dy * .2;
 
 
 
@@ -520,6 +712,11 @@ function game() {
     jumpOrb2.render();
     jumpOrb3.render();
     jumpOrb4.render();
+    jumpOrb5.render();
+    jumpOrb6.render();
+    jumpOrb7.render();
+    jumpOrb8.render();
+    jumpOrb9.render();
     platform.render();
     platform2.render();
     platform3.render();
@@ -527,7 +724,12 @@ function game() {
     platform5.render();
     platform6.render();
     platform7.render();
-    wall.render();
+    platform8.render();
+    platform9.render();
+    platform10.render();
+    platform11.render();
+    platform12.render();
+    wall.graphic();
     wall2.render();
     wall3.render();
     avatar.graphic();
