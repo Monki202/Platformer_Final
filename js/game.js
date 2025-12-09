@@ -57,11 +57,18 @@ var level = new GameObject();
 //recommended x between 50 and 950
 function init() {
     state = menu
+    console.log("leftwall =", document.querySelector("#leftwall"));
+
+    wall.setImage("#leftwall");
+    wall2.setImage("#rightwall");
+    wall3.setImage("#rightwall");
+
+
 
     avatar.color = `green`;
     avatar.w = 120;
     avatar.h = 130;
-    avatar.setImage("#playerLeft")
+    avatar.setImage("#playerLeft");
 
     level.x = 0;
     level.y = 0;
@@ -108,8 +115,8 @@ function init() {
     jumpOrb6.color = 'yellow'
     jumpOrb6.world = level
 
-    jumpOrb7.h = 50
     jumpOrb7.w = 50
+    jumpOrb7.h = 50
     jumpOrb7.x = 190
     jumpOrb7.y = -2250
     jumpOrb7.color = 'yellow'
@@ -131,11 +138,12 @@ function init() {
 
     wall.h = 10000;
     wall.w = 34;
-    wall.color = `purple`
-    wall.world = level
+    wall.color = `purple`;
+    wall.world = level;
     wall.x = 1000;
-    wall.img.h = 1000
-    wall.setImage("#wallleft")
+    wall.setImage("#leftwall")
+    wall.img.x = -100;
+    wall.img.y = 1;
 
     wall2.h = 10000;
     wall2.w = 34;
@@ -706,7 +714,6 @@ function game() {
     avatar.y += dy * .2;
 
 
-
     ground.render();
     jumpOrb.render();
     jumpOrb2.render();
@@ -730,7 +737,7 @@ function game() {
     platform11.render();
     platform12.render();
     wall.graphic();
-    wall2.render();
+    wall2.graphic();
     wall3.render();
     avatar.graphic();
 }
