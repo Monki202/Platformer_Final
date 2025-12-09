@@ -6,24 +6,28 @@ body{
     display:flex;
     justify-content: flex-start;
     align-items: flex-start;
+    background-color: blanchedalmond;
 }
 canvas{
-    border:2px solid black;
+    border:10px solid black;
+    border-radius: 10%;
+    
     /*
         !IMPORTANT! Change the source of this image
         
         NOTE: it should only require you to change the file name not the path. 
         NOTE: This path uses ../ to navigate up one level into the root folder where the "images" folder is located.
     */
-    background-image: url(../images/Brick\ Backround.png);
+    /*background-image: url(../images/Brick\ Backround.png);*/
 }
 #instructions{
     width:300px;
     padding:0 20px 20px 20px;
     margin-left: 20px;
+    font-size: 20px;
 }
 h2{
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, Helvetica, sans-serif;
 }
 h2 span{
     font-family:Arial, Helvetica, sans-serif;

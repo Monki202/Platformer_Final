@@ -17,7 +17,9 @@ class GameObject
      this.vx=0;
      this.vy=0;
     //object color
-     this.color = `hotpink`
+     this.color = `lime`
+     this.offsetX = 0;
+     this.offsetY = 0;
     //jump boolean
     this.canJump = false;
     this.hasJumped = false;
@@ -56,7 +58,7 @@ class GameObject
     {
         ctx.save();
         ctx.fillStyle = this.color
-        ctx.translate(_x+this.world.x, _y+this.world.y)
+        ctx.translate(_x+this.world.x + this.offsetX, _y+this.world.y + this.offsetY)
         
         ctx.rotate(this.rotation * Math.PI / 180)
 
@@ -69,7 +71,7 @@ class GameObject
         ctx.drawImage( 
             this.img.src,
             this.img.sx,
-            this.img.sy, 
+            this.img.sy,
             this.img.sw,
             this.img.sh,
             -this.img.w/2, 
@@ -86,7 +88,7 @@ class GameObject
     ctx.save();
 
     // Replace only the image source, not the entire 'img' object
-    this.img.src = playerImg.src;
+    // this.img.src = playerImg.src;
 
     ctx.fillStyle = this.color;
     ctx.translate(this.x + this.world.x, this.y + this.world.y);
@@ -95,6 +97,37 @@ class GameObject
 
     ctx.restore();
 }
+
+
+   Parralaxgraphic(_x=this.x,_y=this.y)
+    {
+        ctx.save();
+        ctx.fillStyle = this.color
+        ctx.translate(_x+(this.world.x / 2) + this.offsetX, _y+(this.world.y / 2) + this.offsetY)
+        
+        ctx.rotate(this.rotation * Math.PI / 180)
+
+        ctx.scale
+        (
+            Math.max(0.001, this.img.scale.x),
+            Math.max(0.001, this.img.scale.y)
+        );
+
+        ctx.drawImage( 
+            this.img.src,
+            this.img.sx,
+            this.img.sy,
+            this.img.sw,
+            this.img.sh,
+            -this.img.w/2, 
+            -this.img.h/2, 
+            this.img.w, 
+            this.img.h
+            )
+        ctx.restore();
+    }
+
+
 
 
     //Moves an object by adding it's velocity to it's position on each axis

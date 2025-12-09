@@ -17,6 +17,7 @@ var state;
 var button = new GameObject();
 var avatar = new GameObject();
 var ground = new GameObject();
+var background = new GameObject();
 var jumpOrb = new GameObject();
 var jumpOrb2 = new GameObject();
 var jumpOrb3 = new GameObject();
@@ -57,11 +58,6 @@ var level = new GameObject();
 //recommended x between 50 and 950
 function init() {
     state = menu
-    console.log("leftwall =", document.querySelector("#leftwall"));
-
-    wall.setImage("#leftwall");
-    wall2.setImage("#rightwall");
-    wall3.setImage("#rightwall");
 
 
 
@@ -70,105 +66,112 @@ function init() {
     avatar.h = 130;
     avatar.setImage("#playerLeft");
 
-    level.x = 0;
+    level.x = 0
     level.y = 0;
 
-    jumpOrb.h = 100
-    jumpOrb.w = 100
-    jumpOrb.x = 600
-    jumpOrb.y = 130
-    jumpOrb.color = 'purple'
-    jumpOrb.world = level
+    background.setImage("#background");
+    background.img.h = 10000;
+    background.img.w = 1504;
+    background.world = level;
 
-    jumpOrb2.h = 100
-    jumpOrb2.w = 100
-    jumpOrb2.x = 550
-    jumpOrb2.y = -390
-    jumpOrb2.color = 'blue'
-    jumpOrb2.world = level
+    jumpOrb.h = 100;
+    jumpOrb.w = 100;
+    jumpOrb.x = 600;
+    jumpOrb.y = 130;
+    jumpOrb.color = 'purple';
+    jumpOrb.world = level;
+
+    jumpOrb2.h = 100;
+    jumpOrb2.w = 100;
+    jumpOrb2.x = 550;
+    jumpOrb2.y = -390;
+    jumpOrb2.color = 'blue';
+    jumpOrb2.world = level;
     
-    jumpOrb3.h = 100
-    jumpOrb3.w = 100
-    jumpOrb3.x = 600
-    jumpOrb3.y = -950
-    jumpOrb3.color = 'blue'
-    jumpOrb3.world = level
+    jumpOrb3.h = 100;
+    jumpOrb3.w = 100;
+    jumpOrb3.x = 600;
+    jumpOrb3.y = -950;
+    jumpOrb3.color = 'blue';
+    jumpOrb3.world = level;
 
-    jumpOrb4.h = 80
-    jumpOrb4.w = 80
-    jumpOrb4.x = 80
-    jumpOrb4.y = -1680
-    jumpOrb4.color = 'purple'
-    jumpOrb4.world = level
+    jumpOrb4.h = 80;
+    jumpOrb4.w = 80;
+    jumpOrb4.x = 80;
+    jumpOrb4.y = -1680;
+    jumpOrb4.color = 'purple';
+    jumpOrb4.world = level;
 
-    jumpOrb5.h = 70
-    jumpOrb5.w = 70
-    jumpOrb5.x = 500
-    jumpOrb5.y = -2080
-    jumpOrb5.color = 'yellow'
-    jumpOrb5.world = level
+    jumpOrb5.h = 70;
+    jumpOrb5.w = 70;
+    jumpOrb5.x = 500;
+    jumpOrb5.y = -2080;
+    jumpOrb5.color = 'yellow';
+    jumpOrb5.world = level;
 
-    jumpOrb6.h = 80
-    jumpOrb6.w = 80
-    jumpOrb6.x = 900
-    jumpOrb6.y = -2280
-    jumpOrb6.color = 'yellow'
-    jumpOrb6.world = level
+    jumpOrb6.h = 80;
+    jumpOrb6.w = 80;
+    jumpOrb6.x = 900;
+    jumpOrb6.y = -2280;
+    jumpOrb6.color = 'yellow';
+    jumpOrb6.world = level;
 
-    jumpOrb7.w = 50
-    jumpOrb7.h = 50
-    jumpOrb7.x = 190
-    jumpOrb7.y = -2250
-    jumpOrb7.color = 'yellow'
-    jumpOrb7.world = level
+    jumpOrb7.w = 50;
+    jumpOrb7.h = 50;
+    jumpOrb7.x = 190;
+    jumpOrb7.y = -2250;
+    jumpOrb7.color = 'yellow';
+    jumpOrb7.world = level;
 
-    jumpOrb8.h = 50
-    jumpOrb8.w = 50
-    jumpOrb8.x = 700
-    jumpOrb8.y = -2600
-    jumpOrb8.color = 'yellow'
-    jumpOrb8.world = level
+    jumpOrb8.h = 50;
+    jumpOrb8.w = 50;
+    jumpOrb8.x = 700;
+    jumpOrb8.y = -2600;
+    jumpOrb8.color = 'yellow';
+    jumpOrb8.world = level;
 
-    jumpOrb9.h = 50
-    jumpOrb9.w = 50
-    jumpOrb9.x = 300
-    jumpOrb9.y = -2900
-    jumpOrb9.color = 'yellow'
-    jumpOrb9.world = level
+    jumpOrb9.h = 50;
+    jumpOrb9.w = 50;
+    jumpOrb9.x = 300;
+    jumpOrb9.y = -2900;
+    jumpOrb9.color = 'yellow';
+    jumpOrb9.world = level;
 
     wall.h = 10000;
     wall.w = 34;
+    wall.x = 1000;
     wall.color = `purple`;
     wall.world = level;
-    wall.x = 1000;
-    wall.setImage("#leftwall")
-    wall.img.x = -100;
-    wall.img.y = 1;
 
     wall2.h = 10000;
     wall2.w = 34;
-    wall2.color = `purple`
-    wall2.world = level
+    wall2.color = `purple`;
+    wall2.world = level;
     wall2.x = -2;
 
     wall3.h = 600;
     wall3.w = 504;
-    wall3.color = `purple`
-    wall3.world = level
+    wall3.color = `purple`;
+    wall3.world = level;
     wall3.x = 950;
     wall3.y = -1200
 
     ground.color = `brown`;
     ground.w = c.width;
     ground.h = c.height * .5;
-    ground.y = c.height
-    ground.world = level
+    ground.y = c.height;
+    ground.world = level;
+    ground.setImage("#Ground");
+    ground.img.w = 2000;
+    ground.img.h = 200;
+    ground.offsetY += -78;
 
+  
     platform.w = 200;
     platform.h = 34;
-    platform.color = `black`
-    platform.world = level
     platform.x = 200;
+    platform.color = `black`;
+    platform.world = level;
 
     platform2.w = 200;
     platform2.h = 34;
@@ -705,7 +708,7 @@ function game() {
      }*/
 
 
-    var dx = c.width / 2 - avatar.x
+    //var dx = c.width / 2 - avatar.x
     var dy = c.height / 1.5 - avatar.y
 
     //level.x += dx*.05; 
@@ -713,8 +716,12 @@ function game() {
     level.y += dy * .2;
     avatar.y += dy * .2;
 
+    
 
-    ground.render();
+    //background.offsetY -= 1;
+
+    background.Parralaxgraphic();
+    ground.graphic();
     jumpOrb.render();
     jumpOrb2.render();
     jumpOrb3.render();
@@ -736,8 +743,6 @@ function game() {
     platform10.render();
     platform11.render();
     platform12.render();
-    wall.graphic();
-    wall2.graphic();
     wall3.render();
     avatar.graphic();
 }
