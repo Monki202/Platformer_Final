@@ -4,6 +4,18 @@ var ctx = c.getContext(`2d`)
 var fps = 1000 / 60
 var timer = setInterval(main, fps)
 var playerImg = new Image();
+var jumpSound = new Audio("./Sounds/action_jump.mp3")
+var Music = new Audio("./Sounds/03. Scheming Weasel faster.mp3")
+Music.loop = true;
+Music.volume = 0.2;
+var StartSound = new Audio("./Sounds/bass_vCrw3wU.mp3")
+var BoingSmall = new Audio("./Sounds/boingSmall.mp3")
+var BoingmMedium = new Audio("./Sounds/BoingMedium.mp3")
+var BoingLarge = new Audio("./Sounds/BoingLarge.mp3")
+var WinSound1 = new Audio("./Sounds/roblox-old-winning-sound-effect.mp3")
+var WinSound2 = new Audio("./Sounds/crowd_small_chil_ec049202_9klCwI6.mp3")
+var winPlayed = false;
+
 
 
 function main() {
@@ -14,6 +26,8 @@ function main() {
 
 //setup
 var state;
+var winThing = new GameObject();
+var winScreen = new GameObject();
 var button = new GameObject();
 var avatar = new GameObject();
 var ground = new GameObject();
@@ -59,7 +73,21 @@ var level = new GameObject();
 function init() {
     state = menu
 
+    Music.loop = true
+    Music.play();
 
+    winScreen.setImage("#youwin")
+    winScreen.img.x = 0;
+    winScreen.img.y = 0;
+    winScreen.img.w = ctx.width;
+    winScreen.img.h = ctx.height;
+
+    winThing.w = 100;
+    winThing.h = 100;
+    winThing.x = 800;
+    winThing.y = -3500;
+    winThing.color = 'green';
+    winThing.world = level;
 
     avatar.color = `green`;
     avatar.w = 120;
@@ -78,74 +106,71 @@ function init() {
     jumpOrb.w = 100;
     jumpOrb.x = 600;
     jumpOrb.y = 130;
-    jumpOrb.color = 'purple';
     jumpOrb.world = level;
 
     jumpOrb2.h = 100;
     jumpOrb2.w = 100;
     jumpOrb2.x = 550;
     jumpOrb2.y = -390;
-    jumpOrb2.color = 'blue';
     jumpOrb2.world = level;
     
     jumpOrb3.h = 100;
     jumpOrb3.w = 100;
     jumpOrb3.x = 600;
     jumpOrb3.y = -950;
-    jumpOrb3.color = 'blue';
     jumpOrb3.world = level;
 
     jumpOrb4.h = 80;
     jumpOrb4.w = 80;
     jumpOrb4.x = 80;
     jumpOrb4.y = -1680;
-    jumpOrb4.color = 'purple';
     jumpOrb4.world = level;
 
     jumpOrb5.h = 70;
     jumpOrb5.w = 70;
     jumpOrb5.x = 500;
     jumpOrb5.y = -2080;
-    jumpOrb5.color = 'yellow';
     jumpOrb5.world = level;
 
     jumpOrb6.h = 80;
     jumpOrb6.w = 80;
     jumpOrb6.x = 900;
     jumpOrb6.y = -2280;
-    jumpOrb6.color = 'yellow';
     jumpOrb6.world = level;
 
     jumpOrb7.w = 50;
     jumpOrb7.h = 50;
     jumpOrb7.x = 190;
     jumpOrb7.y = -2250;
-    jumpOrb7.color = 'yellow';
     jumpOrb7.world = level;
 
     jumpOrb8.h = 50;
     jumpOrb8.w = 50;
     jumpOrb8.x = 700;
     jumpOrb8.y = -2600;
-    jumpOrb8.color = 'yellow';
     jumpOrb8.world = level;
 
     jumpOrb9.h = 50;
     jumpOrb9.w = 50;
     jumpOrb9.x = 300;
     jumpOrb9.y = -2900;
-    jumpOrb9.color = 'yellow';
     jumpOrb9.world = level;
+
+    jumpOrb10.h = 50;
+    jumpOrb10.w = 50;
+    jumpOrb10.x = 400;
+    jumpOrb10.y = -3400;
+    jumpOrb10.world = level;
 
     wall.h = 10000;
     wall.w = 34;
     wall.x = 1000;
-    wall.color = `purple`;
+    wall.color = `grey`;
     wall.world = level;
 
     wall2.h = 10000;
     wall2.w = 34;
-    wall2.color = `purple`;
+    wall2.color = `grey`;
     wall2.world = level;
     wall2.x = -2;
 
@@ -153,7 +178,7 @@ function init() {
     wall3.w = 504;
     wall3.color = `purple`;
     wall3.world = level;
-    wall3.x = 950;
+    wall3.x = 951.8;
     wall3.y = -1200
 
     ground.color = `brown`;
@@ -271,6 +296,8 @@ function jump(e) {
             avatar.canJump = false;
             avatar.hasJumped = true;
             avatar.vy = -21;
+            jumpSound.currentTime = 0;
+            jumpSound.play();
         }
     }
 }
@@ -306,11 +333,38 @@ function resetJump(e) {
 function menu() {
     if (clicked(button)) {
         state = game;
+        StartSound.volume = 0.1
+        StartSound.play();
+
+        Music.play();
     }
     button.render()
 }
 
-function win() {
+function win() 
+{
+
+    avatar.vx = 0;
+    avatar.vy = 0;
+
+    // Make image fill screen
+    winScreen.img.x = 0;
+    winScreen.img.y = 0;
+    winScreen.img.w = c.width;
+    winScreen.img.h = c.height;
+
+    winScreen.fullscreen();
+    
+    Music.pause();
+
+    if(!winPlayed)
+    {
+        winPlayed = true;
+        WinSound1.loop = false;
+        WinSound2.loop = false;
+        WinSound1.play();
+        WinSound2.play();
+    }
 
 }
 function lose() {
@@ -436,6 +490,11 @@ function game() {
         avatar.vy = 32
     }
 
+    if (winThing.overlaps(avatar)) 
+    {
+        state = win;
+    }
+
     while (ground.isOverPoint(avatar.bottom())) {
         avatar.vy = 0;
         avatar.y--;
@@ -449,6 +508,8 @@ function game() {
         jumpOrb.color = 'red';
         avatar.vy = -22;  
         orbCooldown = false;
+        BoingSmall.currentTime = 0;
+        BoingSmall.play();
     }
 
     if (jumpOrb2.overlaps(avatar) && orbCooldown == true) 
@@ -456,6 +517,8 @@ function game() {
         jumpOrb2.color = 'red';
         avatar.vy = -38;
         orbCooldown = false;
+        BoingLarge.currentTime = 0;
+        BoingLarge.play();
     }
 
     if (jumpOrb3.overlaps(avatar) && orbCooldown == true) 
@@ -463,6 +526,8 @@ function game() {
         jumpOrb3.color = 'red';
         avatar.vy = -43;  
         orbCooldown = false;
+        BoingLarge.currentTime = 0;
+        BoingLarge.play();
     }
 
     if (jumpOrb4.overlaps(avatar) && orbCooldown == true) 
@@ -470,6 +535,8 @@ function game() {
         jumpOrb4.color = 'red';
         avatar.vy = -24; 
         orbCooldown = false;
+        BoingSmall.currentTime = 0;
+        BoingSmall.play();
     }
 
     if (jumpOrb5.overlaps(avatar) && orbCooldown == true) 
@@ -477,6 +544,8 @@ function game() {
         jumpOrb5.color = 'red';
         avatar.vy = -23; 
         orbCooldown = false;
+        BoingmMedium.currentTime = 0;
+        BoingmMedium.play();
     }
 
     if (jumpOrb6.overlaps(avatar) && orbCooldown == true) 
@@ -484,18 +553,24 @@ function game() {
         jumpOrb6.color = 'red';
         avatar.vy = -23; 
         orbCooldown = false;
+        BoingSmall.currentTime = 0;
+        BoingSmall.play();
     }
     if (jumpOrb7.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb7.color = 'red';
         avatar.vy = -23; 
         orbCooldown = false;
+        BoingSmall.currentTime = 0;
+        BoingSmall.play();
     }
         if (jumpOrb8.overlaps(avatar) && orbCooldown == true) 
     {
         jumpOrb8.color = 'red';
         avatar.vy = -29; 
         orbCooldown = false;
+        BoingLarge.currentTime = 0;
+        BoingLarge.play();
     }
 
     if (jumpOrb9.overlaps(avatar) && orbCooldown == true) 
@@ -503,6 +578,17 @@ function game() {
         jumpOrb9.color = 'red';
         avatar.vy = -36; 
         orbCooldown = false;
+        BoingLarge.currentTime = 0;
+        BoingLarge.play();
+    }
+
+    if (jumpOrb10.overlaps(avatar) && orbCooldown == true) 
+    {
+        jumpOrb10.color = 'red';
+        avatar.vy = -26; 
+        orbCooldown = false;
+        BoingmMedium.currentTime = 0;
+        BoingmMedium.play();
     }
 
     if (orbCooldown == true)
@@ -516,6 +602,7 @@ function game() {
         jumpOrb7.color = 'purple'
         jumpOrb8.color = 'blue'
         jumpOrb9.color = 'blue'
+        jumpOrb10.color = "yellow"
     }
 
     while (platform.isOverPoint(avatar.bottom())) {
@@ -731,6 +818,8 @@ function game() {
     jumpOrb7.render();
     jumpOrb8.render();
     jumpOrb9.render();
+    jumpOrb10.render();
+    wall3.render();
     platform.render();
     platform2.render();
     platform3.render();
@@ -743,7 +832,9 @@ function game() {
     platform10.render();
     platform11.render();
     platform12.render();
-    wall3.render();
+    winThing.render();
+    wall.render();
+    wall2.render();
     avatar.graphic();
 }
 

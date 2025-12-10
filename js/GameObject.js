@@ -82,6 +82,12 @@ class GameObject
         ctx.restore();
     }
 
+    fullscreen() {
+    ctx.save();
+    ctx.drawImage(this.img.src, 0, 0, c.width, c.height);
+    ctx.restore();
+}
+
     //Draws a rectangle 
     render() 
 {
